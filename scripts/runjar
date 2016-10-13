@@ -1,0 +1,28 @@
+#!/bin/sh
+###
+#	© Copyright IBM Corporation 2014.  
+#	@PLUGIN_NAME@
+#	
+#   This is licensed under the following license.
+#   The Eclipse Public 1.0 License (http://www.eclipse.org/legal/epl-v10.html)
+#   U.S. Government Users Restricted Rights:  Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+#	
+#	Filename: runjar
+#	
+#	
+###
+
+# source the shared lib for JAVA_HOME and CLASSPATH variables
+d=`dirname "$0"`
+d="$d/setupCmdLine.sh"
+. "$d"
+
+## wrap all args in a " since the shell will remove quotes
+HADOOP="$1"
+COMMAND="$2"
+JAR_NAME="$3"
+JAR_PARAMETERS="$4"
+	
+${JAVA_HOME}/bin/java "-Djava.class.path=${CLASSPATH}" "-Dfile.encoding=UTF8" com.ibm.rational.deploy.Hadoop.ParseParameters "${HADOOP}" "${COMMAND}" "${JAR_NAME}" "${JAR_PARAMETERS}"
+
+exit $?

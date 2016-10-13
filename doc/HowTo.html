@@ -1,0 +1,23 @@
+<!--
+
+/**
+ * © Copyright IBM Corporation 2014.  
+ * This is licensed under the following license.
+ * The Eclipse Public 1.0 License (http://www.eclipse.org/legal/epl-v10.html)
+ * U.S. Government Users Restricted Rights:  Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp. 
+ */
+
+-->
+
+Here is how you can use the plugin:
+
+1) Upload the releases/HadoopPlugin_v1.zip file as a plugin into UCD.
+2) Upload the component template (imports/componenttemplates/Hadoop Configuration.json) to UCD.
+3) Install the agent on the computer that houses the Hadoop cluster.
+4) Add the agent property 'HDPath' as the path to Hadoop.
+5) Upload the .JAR file (e.g. hadoop-mapreduce-examples-2.2.0.jar ) to be run in Hadoop as a component version.
+6) Add the component property 'InputDFS' as the name of the input directory on DFS.
+7) Fill in the parameters to run the component template process and execute the process.
+
+Note: the first two steps in the component process are create directory and copy inputs into DFS. If the directory already exists and inputs are already copied, these steps will fail. However, the process is set up such that these steps do not have to be completed for the process to continue to running the jar file.
+

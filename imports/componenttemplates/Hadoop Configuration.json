@@ -1,0 +1,168 @@
+{
+    "path": "componentTemplates\/abeb48e2-fcd6-403e-b3de-2b10e76c67a1",
+    "name": "Hadoop Configuration",
+    "description": "Configuration for Hadoop Deployment",
+    "active": true,
+    "envPropDefs": [],
+    "propDefs": [],
+    "properties": [],
+    "processes": [{
+        "name": "DeployHadoop",
+        "description": "",
+        "defaultWorkingDir": "${p:resource\/work.dir}\/${p:component.name}",
+        "takesVersion": true,
+        "inventoryActionType": "ADD",
+        "status": "Active",
+        "configActionType": "ADD",
+        "active": true,
+        "path": "componentTemplates\/abeb48e2-fcd6-403e-b3de-2b10e76c67a1\/processes\/795fcff3-26f6-4b6f-a894-296aa807cded",
+        "propDefs": [],
+        "rootActivity": {
+            "edges": [
+                {
+                    "to": "Download Artifacts",
+                    "type": "ALWAYS",
+                    "value": ""
+                },
+                {
+                    "to": "Create Directory",
+                    "from": "Download Artifacts",
+                    "type": "SUCCESS",
+                    "value": ""
+                },
+                {
+                    "to": "Copy Inputs",
+                    "from": "Create Directory",
+                    "type": "SUCCESS",
+                    "value": ""
+                },
+                {
+                    "to": "Run Jar",
+                    "from": "Copy Inputs",
+                    "type": "SUCCESS",
+                    "value": ""
+                },
+                {
+                    "to": "e84e5d295b5d03ef436a540cc1db75",
+                    "from": "Run Jar",
+                    "type": "SUCCESS",
+                    "value": ""
+                }
+            ],
+            "offsets": [
+                {
+                    "name": "Copy Inputs",
+                    "x": 207.5,
+                    "y": 230
+                },
+                {
+                    "name": "Create Directory",
+                    "x": -198.5,
+                    "y": 166
+                },
+                {
+                    "name": "e84e5d295b5d03ef436a540cc1db75",
+                    "x": 0,
+                    "y": 420
+                },
+                {
+                    "name": "Run Jar",
+                    "x": -172.5,
+                    "y": 322
+                },
+                {
+                    "name": "Download Artifacts",
+                    "x": -22.5,
+                    "y": 80
+                }
+            ],
+            "type": "graph",
+            "name": "fcde48de-7cd6-4320-9c68-ce0a9105a5f1",
+            "children": [
+                {
+                    "type": "finish",
+                    "name": "e84e5d295b5d03ef436a540cc1db75",
+                    "children": []
+                },
+                {
+                    "allowFailure": true,
+                    "useImpersonation": false,
+                    "showHidden": false,
+                    "impersonationUseSudo": false,
+                    "commandName": "Create Directory",
+                    "pluginName": "Hadoop",
+                    "pluginVersion": 1,
+                    "properties": {
+                        "HDPath": "${p:agent\/HDPath}",
+                        "InputDFS": "${p:component\/InputDFS}"
+                    },
+                    "type": "plugin",
+                    "name": "Create Directory",
+                    "children": []
+                },
+                {
+                    "allowFailure": true,
+                    "useImpersonation": false,
+                    "showHidden": false,
+                    "impersonationUseSudo": false,
+                    "commandName": "Copy Inputs",
+                    "pluginName": "Hadoop",
+                    "pluginVersion": 1,
+                    "properties": {
+                        "HDPath": "${p:agent\/HDPath}",
+                        "InputFile": "",
+                        "InputDFS": "${p:component\/InputDFS}"
+                    },
+                    "type": "plugin",
+                    "name": "Copy Inputs",
+                    "children": []
+                },
+                {
+                    "allowFailure": false,
+                    "useImpersonation": false,
+                    "showHidden": true,
+                    "impersonationUseSudo": false,
+                    "commandName": "Run Jar",
+                    "pluginName": "Hadoop",
+                    "pluginVersion": 1,
+                    "properties": {
+                        "HDparameters": "",
+                        "HDPath": "${p:agent\/HDPath}",
+                        "JARComponent": ""
+                    },
+                    "type": "plugin",
+                    "name": "Run Jar",
+                    "children": []
+                },
+                {
+                    "allowFailure": false,
+                    "useImpersonation": false,
+                    "showHidden": false,
+                    "impersonationUseSudo": false,
+                    "commandName": "Download Artifacts",
+                    "pluginName": "IBM UrbanCode Deploy Versioned File Storage",
+                    "pluginVersion": 16,
+                    "properties": {
+                        "directoryOffset": ".",
+                        "artifactSetBaseDir": "",
+                        "fileIncludePatterns": "**\/*",
+                        "fileExcludePatterns": "",
+                        "syncMode": "true",
+                        "fullVerification": "true",
+                        "setFileExecuteBits": "false",
+                        "verifyFileIntegrity": "false",
+                        "repositoryUrl": "${p:server.url}\/vfs",
+                        "repositoryId": "${p:component\/code_station\/repository}",
+                        "label": "${p:version.name}",
+                        "serverUrl": "${p:server.url}",
+                        "compId": "${p:component.id}",
+                        "resId": "${p:resource.id}"
+                    },
+                    "type": "plugin",
+                    "name": "Download Artifacts",
+                    "children": []
+                }
+            ]
+        }
+    }]
+}

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+/**
+ * © Copyright IBM Corporation 2014, 2016.
+ * This is licensed under the following license.
+ * The Eclipse Public 1.0 License (http://www.eclipse.org/legal/epl-v10.html)
+ * U.S. Government Users Restricted Rights:  Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+ */
+
+-->
+
+<plugin xmlns="http://www.urbancode.com/PluginXMLSchema_v1"
+	xmlns:server="http://www.urbancode.com/PluginServerXMLSchema_v1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<header>
+		<identifier id="com.ibm.uDeploy.Hadoop" version="2" name="Hadoop" />
+		<description>Automates the deployment of applications from IBM UrbanCode Deploy into Hadoop.</description>
+		<tag>Hadoop</tag>
+	</header>
+
+		<step-type name="Create Directory">
+          <description>Creates Directory in DFS</description>
+          <post-processing><![CDATA[ if (properties.get("exitCode") != 0) { properties.put("Status", "Failure"); } else { properties.put("Status", "Success"); } ]]></post-processing>
+
+          <properties>
+               <property name="HDPath" required="true">
+                    <property-ui default-value="${p:agent/HDPath}" description="Path to Hadoop Directory" hidden="true" label="Path to Hadoop" type="textBox"/>
+               </property>
+               <property name="InputDFS" required="true">
+                    <property-ui default-value="${p:component/InputDFS}" description="Name of Input Directory on DFS" hidden="true" label="DFS Input Directory" type="textBox"/>
+               </property>
+		   </properties>
+
+		  <!-- Creates Directory on DFS to store inputs -->
+          <command program="${HDPath}/hdfs">
+            <arg value="dfs"/>
+            <arg value="-mkdir"/>
+            <arg value="${InputDFS}"/>
+          </command>
+     </step-type>
+
+     <step-type name="Copy Inputs">
+          <description>Copy inputs into DFS</description>
+          <post-processing><![CDATA[ if (properties.get("exitCode") != 0) { properties.put("Status", "Failure"); } else { properties.put("Status", "Success"); } ]]></post-processing>
+
+		  <properties>
+               <property name="HDPath" required="true">
+                    <property-ui default-value="${p:agent/HDPath}" description="Path to Hadoop Directory" hidden="true" label="Path to Hadoop" type="textBox"/>
+               </property>
+               <property name="InputFile" required="true">
+                    <property-ui default-value="" description="Name of Local Input File(s)" hidden="false" label="Path to Input File" type="textBox"/>
+               </property>
+               <property name="InputDFS" required="true">
+                    <property-ui default-value="${p:component/InputDFS}" description="Name of Input Directory on DFS" hidden="true" label="DFS Input Directory" type="textBox"/>
+               </property>
+		   </properties>
+
+          <!-- Copies all input files from local location into DFS -->
+          <command program="${HDPath}/hdfs">
+			<arg value="dfs"/>
+			<arg value="-copyFromLocal"/>
+			<arg value="${InputFile}"/>
+			<arg value="${p:InputDFS}"/>
+          </command>
+     </step-type>
+
+     <step-type name="Run Jar">
+          <description>Runs Jar file on Hadoop</description>
+          <post-processing><![CDATA[ if (properties.get("exitCode") != 0) { properties.put("Status", "Failure"); } else { properties.put("Status", "Success"); } ]]></post-processing>
+
+		  <properties>
+               <property name="HDparameters" required="true">
+                    <property-ui default-value="" description="Parameters required for executing the jar file. E.g. : programName inputDir OutputDir" hidden="false" label="Jar Parameters" type="textBox"/>
+               </property>
+               <property name="HDPath" required="true">
+                    <property-ui default-value="${p:agent/HDPath}" description="Path to Hadoop Directory" hidden="true" label="Parameters" type="textBox"/>
+               </property>
+			   <property name="JARComponent" required="true">
+                    <property-ui default-value="" description="The name of the jar file which has been uploaded as a component version for this component." hidden="false" label="Name of Jar" type="textBox"/>
+               </property>
+		   </properties>
+
+         <command program="${PLUGIN_HOME}/bin/runjar">
+         	<arg value="${HDPath}/hadoop"/>
+            <arg value="jar"/>
+            <arg value="${JARComponent}"/>
+            <arg value="${HDparameters}"/>
+          </command>
+     </step-type>
+
+</plugin>
