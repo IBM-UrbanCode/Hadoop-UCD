@@ -7,7 +7,7 @@ before_script:
 - export VERSION=${TRAVIS_TAG}.${TRAVIS_COMMIT:0:7}
 - ant run-tests
 script:
-- ant -Dcompile.no=y -Dversion=${VERSION}
+- ant -Dversion=${VERSION}
 jdk:
 - oraclejdk8
 - oraclejdk7
