@@ -1,0 +1,31 @@
+language: groovy
+rvm:
+- 1.8.8
+install:
+- ant install-ivy -DfailIvy=false
+before_script:
+- export VERSION=${TRAVIS_TAG}.${TRAVIS_COMMIT:0:7}
+- ant run-tests
+script:
+- ant -Dcompile.no=y -Dversion=${VERSION}
+jdk:
+- oraclejdk8
+- oraclejdk7
+- openjdk7
+- openjdk6
+notifications:
+  slack:
+    secure: BXLMdwqKdcUdjlrTgOA50DMFayRu42G6mWxCancO7IeFzR490tSb5CX3st0v60i11Ta832yC+aghBVibUMotERLVWKo1o2eu/6c4m7ig11hY50lKwWR8fUXR3eY4ea7VmotsmTX8IvxjvzKUAvpI6IWhhLOqCiAhjiFeJaN70dsslUspxeKPc3zzTRc8rxfwvJEpw46uRhKpbcad3d+08xlMVhMpNZkhYh1yF8gwqJVUGCUFmjOsN7i+hA1RcpISbm7otLMepjprjgZd2jIB/JPTIi1mhgIhqHn4YrL22Y1l/5XFI5RRX9Mb82zyIH7J4Q9dbbAwPbKj1iG8iBD9kkP+lwzH2f2KHQcbkgUU6cmME6HMPIocITYVdLRos0Ylzs0S7tjWal0Ebu9sWzHYqZJmaHml+lU2UIeiBn+SOmrAjMqjTOdsq3n0c0bqrmP791ZwUICQl0mdyucOnHact0wDys8rGiSX63COl0EDwRs+kwtBtVnhNYYC4Jm3CrsO/dCDPz4RrQlqYY0tJsAeO+T9KR0f8lnaiNoIStNL17M8kzwiNl3NQb4KJ8Fmkp+ItDAkcRedIICAUmRK+tRMVAC6DRzru8trjHrPhxctcFiteHuilv4R272Aa4XR/NaV/l5l34bUA4z0ndrWZxgHMGhKPKXtDTWkF+3hLNVo5V4=
+    on_success: change
+    on_failure: change
+  email: false
+deploy:
+  provider: releases
+  api_key:
+    secure: dcEs0PgGB4PdMzXabsyp1JwwNQznNnch47aoeoLla+zMd3UD9INM4iloMipR7XdvfM/wgBJ5euGyjd2TF/NV9WP3T4oZ2ArJBV5qEGWoxpwkVBfHE/ZWY6fWT2aKrS8O+aKumASXmmJ/9wAIBCi6pIkw06sLFaCapoRIegOHHG3eXSDV2fSeX1HUglvTwOQPeisuiS+r0N5C3bzZyO4kpclVQOBND/rMEr8zhvZfNEYc6CFdSk71quIBye5BEmp4xHGFkVdJ+xqdSaz5EImeXmAXVNPLHrOoLR4+awfS26q9Nta46NENrKDmbGiXTA+ccepsJ5wHpQMlObSRkFAizoJdyiFy+3g+GvVvjsbk2/r3BXtIoZqfcTwd5Wusz67ghQ+KNG0tNlf2HkqCNu3Flie74D42j5Zo0MYqDYrUm0FebaArXAZ8G8r7H7QFuK9sVphpcLgl4XVVYJNRdeQekKiLZ1m2FGaI2ifKk+r3NvTfk1VwXV8arTkERWhWmUeVB5MSMhyUr9NJiLAANMRnqGmT+8V6EtBljmCuReOx2qaLJF4AukPiCPMMYna6OpxqTrO7CUdxlxGaJh1drhd43cU3qpmiKiqNW0Nu9P4n/RmyQiwv2iBrgqCv9xqUEWi0r2fnPYB0wIV0LJJZXhRYof1KKpjAplebo+dZuTKSQLI=
+  file_glob: true
+  file: releases/*.zip
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: IBM-UrbanCode/Hadoop-UCD

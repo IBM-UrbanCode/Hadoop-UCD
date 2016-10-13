@@ -1,4 +1,4 @@
-# IBM UrbanCode Deploy Hadoop Plug-in
+# IBM UrbanCode Deploy Hadoop Plug-in [![Build Status](https://travis-ci.org/IBM-UrbanCode/Hadoop-UCD.svg?branch=master)](https://travis-ci.org/IBM-UrbanCode/Hadoop-UCD)
 ---
 Note: This is not the plug-in distributable! The full plug-in can be found under the releases tab.
 
